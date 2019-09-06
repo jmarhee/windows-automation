@@ -14,7 +14,7 @@ Script for installing chocolatey, docker, and enabling RDP.
 
 ### `dl.ps1`
 
-Script to download a resource at `url` to `dest` (defaults to `C:\Users\%username%\Downloads` unless overridden).
+Script to download a resource at `url` to `dest` (defaults to working directory unless destination is overridden with `-dest`).
 
 ## Workstation
 
