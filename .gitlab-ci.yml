@@ -1,9 +1,0 @@
-image: microsoft/powershell
-
-pages:
-  stage: deploy
-  script:
-  - powershell -File dl.ps1 -url "http://ipv4.download.thinkbroadband.com/5MB.zip" -dest 05MB.zip
-  - powershell -File dl.ps1 -url "http://ipv4.download.thinkbroadband.com/5MB.zip"
-  - if(![System.IO.File]::Exists(".\05MB.zip")){ Write-Host "Not Found" }
-  - if(![System.IO.File]::Exists(".\5MB.zip")){ Write-Host "Not Found" }
