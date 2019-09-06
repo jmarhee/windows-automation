@@ -10,7 +10,7 @@ $client = new-object System.Net.WebClient
 
 if (!$dest)
 {
-    $dest = (Get-Item -Path ".\" -Verbose).FullName + "\Downloads\" + [System.IO.Path]::GetFileNameWithoutExtension($url) + [System.IO.Path]::GetExtension($url)
+    $dest = (Get-Item -Path ".\").FullName + [System.IO.Path]::GetFileNameWithoutExtension($url) + [System.IO.Path]::GetExtension($url)
     Write-Host $dest
 } else {
     Write-Host $dest
