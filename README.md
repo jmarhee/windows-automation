@@ -10,6 +10,10 @@ Scripts intended for Windows Server
 
 Script for installing chocolatey, docker, and enabling RDP.
 
+### `dl.ps1`
+
+Script to download a resource at `url` to `dest` (defaults to `C:\Users\%username%\Downloads` unless overridden).
+
 ## Workstation
 
 ### `chrome-backup-bookmarks.bat`
