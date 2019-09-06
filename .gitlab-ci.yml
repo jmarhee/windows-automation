@@ -1,7 +1,7 @@
 image: microsoft/powershell
 
 pages:
-  stage: dl-script
+  stage: deploy
   script:
   - powershell -File dl.ps1 -url "http://ipv4.download.thinkbroadband.com/5MB.zip" -dest 05MB.zip
   - powershell -File dl.ps1 -url "http://ipv4.download.thinkbroadband.com/5MB.zip"
