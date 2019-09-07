@@ -1,28 +1,26 @@
 param(
   [string]$url,
-  [Parameter(Mandatory = $false )]
-  [string]$dest
+  [Parameter(Mandatory = $false)] [string]$dest = ""
 )
 
-Write-Host "Starting " $url "..."
-
-$client = new-object System.Net.WebClient
-
-if (!$dest)
-{
-    $dest = (Get-Item -Path ".\").FullName + [System.IO.Path]::GetFileNameWithoutExtension($url) + [System.IO.Path]::GetExtension($url)
-    Write-Host $dest
-} else {
-    Write-Host $dest
+function DestPath($url, $dest) {
+    if ($dest -eq "")
+    {
+        $dest_target = (Get-Item -Path ".\").FullName + "\" + [System.IO.Path]::GetFileNameWithoutExtension($url) + [System.IO.Path]::GetExtension($url)
+    } else {
+        $dest_target = $dest
+    }
+    return $dest_target
 }
 
-$default = (Get-Item -Path ".\" -Verbose).FullName + "\Downloads\" + $url
+function DownloadPath($url, $dest_out) { 
+    Write-Host "Starting " $url "..."
+    $client = new-object System.Net.WebClient
 
-function DownloadPath($url, $dest = $default) {	
-
-	Write-Host "Downloading to " $dest
-
-	$client.DownloadFile($url,$dest)
+    Write-Host "Downloading to " $dest_out
+    $client.DownloadFile($url,$dest_out)
 }
 
-DownloadPath $url $dest
+$output = DestPath $url $dest
+
+DownloadPath $url $output
