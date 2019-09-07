@@ -6,7 +6,9 @@ param(
 function DestPath($url, $dest) {
     if ($dest -eq "")
     {
-        $dest_target = (Get-Item -Path ".\").FullName + "\" + [System.IO.Path]::GetFileNameWithoutExtension($url) + [System.IO.Path]::GetExtension($url)
+        $dest_target = (Get-Item -Path ".\").FullName + "\" `
+        + [System.IO.Path]::GetFileNameWithoutExtension($url) `
+        + [System.IO.Path]::GetExtension($url)
     } else {
         $dest_target = $dest
     }
