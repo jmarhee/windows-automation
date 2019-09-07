@@ -17,9 +17,9 @@ function DestPath($url, $dest) {
 
 function DownloadPath($url, $dest_out) { 
     Write-Host "Starting " $url "..."
-    $client = new-object System.Net.WebClient
-
     Write-Host "Downloading to " $dest_out
+
+    $client = new-object System.Net.WebClient
     $client.DownloadFile($url,$dest_out)
 }
 
