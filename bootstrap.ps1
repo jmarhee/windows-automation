@@ -12,8 +12,16 @@ if ($choco)
 } ;
 if ($docker)
 {
-    Install-Module -Name DockerMsftProvider -Repository PSGallery -Force ; Install-Package -Name docker -ProviderName DockerMsftProvider
-    Write-Host "Docker installed. Reboot will be required; run 'Restart-Computer -Force'"
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+    Install-Module -Name DockerMsftProvider -Repository PSGallery -Force ; Install-Package -Name docker -ProviderName DockerMsftProvider -Force
+
+    $DockerReb = Read-Host -Prompt 'Docker installed. Reboot will be required. Reboot now? [yes/no]';
+    if($DockerReb = "yes")
+    {
+	Restart-Computer -Force
+    } else {
+        Write-Host "Computer will not reboot. Run 'Restart-Computer -Force' when you are ready to complete installation."
+    }
 } ;
 if ($rdp)
 {
