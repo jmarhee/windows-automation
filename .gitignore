@@ -1,0 +1,4 @@
+windows_node/terraform.tfstate
+windows_node/terraform.tfstate.backup
+windows_node/.terraform
+windows_node/terraform.tfvars
