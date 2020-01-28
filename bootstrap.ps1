@@ -2,7 +2,8 @@ param(
   [Parameter(Mandatory = $false)] [switch]$choco = $false,
   [Parameter(Mandatory = $false)] [switch]$docker = $false,
   [Parameter(Mandatory = $false)] [switch]$rdp = $false,
-  [Parameter(Mandatory = $false)] [switch]$wsl = $false
+  [Parameter(Mandatory = $false)] [switch]$wsl = $false,
+  [Parameter(Mandatory = $false)] [switch]$prepDistro = $false
 )
 
 $errorActionPreference='Stop';
@@ -46,4 +47,25 @@ if ($wsl)
 	Write-Host "You are running the following version of Windows:"
         Write-Host $winVerName
     }
+} ;
+if ($prepDistro -And $choco -And $wsl)
+{
+    $winVerName = systeminfo | findstr /B /C:"OS Name"
+    $compatVersion = $winVerName -Like "*Server 2019*"
+    if ($compatVersion -eq "True")
+    {
+	$distros = choco search wsl | findstr /B /C:"wsl-" | awk '{print $1}'
+	choco feature enable -n=allowGlobalConfirmation
+	choco install awk
+	For ($i=0; $i -lt $distros.Length; $i++)
+	{ 
+		Write-Host "Installing WSL distro $distros[$i]"
+		choco install $distros[$i]
+	}
+    } else {
+        Write-Host "You are running the following version of Windows:"
+        Write-Host $winVerName
+    }
+} else {
+    Write-Host "This function requires that choco and wsl be set, along with prepDistro, in order to complete this phase."
 }
