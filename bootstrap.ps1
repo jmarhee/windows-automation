@@ -3,16 +3,15 @@ param(
   [Parameter(Mandatory = $false)] [switch]$docker = $false,
   [Parameter(Mandatory = $false)] [switch]$rdp = $false,
   [Parameter(Mandatory = $false)] [switch]$wsl = $false,
-  [Parameter(Mandatory = $false)] [switch]$prepDistro = $false,
-  [Parameter(Mandatory = $false)] [switch]$version = $false
+  [Parameter(Mandatory = $false)] [switch]$prepDistro = $false
 )
 
 $errorActionPreference='Stop';
 
-function Output-Version {
-    param( [string]$CheckString )
+function Output-Version {	
+    $versions = @("*Server 2019*", "*10 Pro*", "*Home 10*")
     $winVerName = systeminfo | findstr /B /C:"OS Name"
-    $compatVersion = $winVerName -Like $CheckString
+    $compatVersion = ($versions | %{$winVerName -Like $_}) -contains $true
     $compatVersion
 }
 
@@ -37,9 +36,9 @@ if ($rdp)
 {
     Cscript C:\Windows\system32\SCRegEdit.wsf /ar 0 ; Write-Host "Enabling RDP"
 } ;
-if ($wsl -And $version)
+if ($wsl)
 {
-    $compatVersion = compatVersion -CheckString $version
+    $compatVersion = Output-Version -CheckString $version
     if ($compatVersion -eq "True")
     {
 	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
@@ -56,9 +55,9 @@ if ($wsl -And $version)
         Write-Host $winVerName
     }
 } ;
-if ($prepDistro -And $choco -And $wsl -And $version)
+if ($prepDistro -And $choco -And $wsl)
 {
-    $compatVersion = compatVersion -CheckString $version
+    $compatVersion = Output-Version
     if ($compatVersion -eq "True")
     {
 	$distros = choco search wsl | findstr /B /C:"wsl-" | awk '{print $1}'
